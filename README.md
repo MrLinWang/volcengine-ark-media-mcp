@@ -105,6 +105,18 @@ magpie library sync
 
 如果 magpie 已经在运行，命令行添加后需要重启一次 magpie，让运行中的网关加载新 server；只重启 Codex 不够。通过 magpie GUI 添加则不需要重启。安装后重启对应 agent，让 magpie 写入的 MCP 配置生效。
 
+## 配套 Skill
+
+仓库包含 `skills/volcengine-ark-media-mcp/SKILL.md`，用于教 agent 在图片、视频、TTS、ASR 场景中选择正确的 `ark_*` 工具，并处理套餐限制、媒体 URL 过期和本地文件输入。
+
+安装到 Codex：
+
+```powershell
+Copy-Item -Recurse -Force .\skills\volcengine-ark-media-mcp "$HOME\.codex\skills\volcengine-ark-media-mcp"
+```
+
+在 magpie 中可从本仓库的 `skills/volcengine-ark-media-mcp` 安装该 Skill。
+
 ### 上架 magpie 市场
 
 magpie 的 MCP 市场搜索来自官方 MCP Registry。需要先发布 npm 包并注册 `server.json`，步骤见 [PUBLISHING.md](PUBLISHING.md)。发布完成后，在 magpie 中搜索 `volcengine` 或 `ark` 即可看到并安装。

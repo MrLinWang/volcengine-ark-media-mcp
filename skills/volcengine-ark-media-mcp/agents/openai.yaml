@@ -1,0 +1,4 @@
+interface:
+  display_name: "Volcengine Ark Media"
+  short_description: "火山方舟 Agent Plan 图片、视频、TTS、ASR 工具指南"
+  default_prompt: "Use $volcengine-ark-media-mcp to generate a 1K image with Volcengine Ark Agent Plan."

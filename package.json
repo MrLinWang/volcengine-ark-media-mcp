@@ -9,6 +9,7 @@
   },
   "files": [
     "dist",
+    "skills",
     "server.json",
     "README.md",
     "PUBLISHING.md",
