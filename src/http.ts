@@ -90,6 +90,9 @@ export async function requestJson<T>(
 
   const data = parseBody(text);
   if (data === undefined) {
+    if (text.trim() === "" && (options.method === "DELETE" || response.status === 204)) {
+      return { data: {} as T, requestId };
+    }
     throw new ArkApiError(`接口返回了非 JSON 内容: ${truncate(text)}`, {
       code: "INVALID_JSON",
       status: response.status,
