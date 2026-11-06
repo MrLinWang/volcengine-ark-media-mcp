@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.MrLinWang/volcengine-ark-media-mcp",
+  "title": "Volcengine Ark Media",
+  "description": "Volcengine Ark Agent Plan media tools: image/video generation, TTS and ASR.",
+  "version": "1.0.0",
+  "websiteUrl": "https://github.com/MrLinWang/volcengine-ark-media-mcp",
+  "repository": {
+    "url": "https://github.com/MrLinWang/volcengine-ark-media-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "volcengine-ark-media-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "ARC_AGENT_PLAN_KEY",
+          "description": "Volcengine Ark Agent Plan API key",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "ARK_MEDIA_OUTPUT_DIR",
+          "description": "Directory for TTS output files (default ~/.arc-agent-media-mcp/outputs)",
+          "isRequired": false
+        }
+      ]
+    }
+  ]
+}

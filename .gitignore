@@ -1,0 +1,21 @@
+# Cloned reference repositories
+ref/
+
+# Dependencies and build output
+node_modules/
+dist/
+coverage/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Generated media
+ark-media-output/
+
+# Locally downloaded tools
+tools/
+
+# Logs
+*.log

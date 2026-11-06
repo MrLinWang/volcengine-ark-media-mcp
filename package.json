@@ -1,0 +1,71 @@
+{
+  "name": "volcengine-ark-media-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Volcengine Ark Agent Plan media: image and video generation, TTS and ASR",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "volcengine-ark-media-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "server.json",
+    "README.md",
+    "PUBLISHING.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "mcpName": "io.github.MrLinWang/volcengine-ark-media-mcp",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test tests/asr-protocol.test.ts tests/errors.test.ts tests/media.test.ts tests/video.test.ts",
+    "test:watch": "tsx --test --watch tests/asr-protocol.test.ts tests/errors.test.ts tests/media.test.ts tests/video.test.ts",
+    "smoke:mcp": "tsx scripts/mcp-smoke.ts",
+    "smoke:mcp-live": "tsx --env-file=.env scripts/mcp-live.ts",
+    "smoke:magpie": "tsx scripts/magpie-smoke.ts",
+    "smoke:live": "tsx --env-file=.env scripts/live-smoke.ts",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "volcengine",
+    "ark",
+    "agent-plan",
+    "doubao",
+    "seedream",
+    "seedance",
+    "tts",
+    "asr"
+  ],
+  "author": "MrLinWang",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrLinWang/volcengine-ark-media-mcp.git"
+  },
+  "homepage": "https://github.com/MrLinWang/volcengine-ark-media-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/MrLinWang/volcengine-ark-media-mcp/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "ffmpeg-static": "^5.3.0",
+    "ws": "^8.18.3",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "@types/ws": "^8.18.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
+}
