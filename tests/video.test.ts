@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { validateVideoInput } from "../src/video.js";
+import { assertVideoSupportedByPlan, validateVideoInput } from "../src/video.js";
 
 describe("video input validation", () => {
   it("requires at least one content input", () => {
@@ -53,5 +53,18 @@ describe("video input validation", () => {
         "doubao-seedance-2.5",
       ),
     );
+  });
+});
+
+describe("video plan tier guard", () => {
+  it("blocks video on Small and Medium", () => {
+    assert.throws(() => assertVideoSupportedByPlan("small"), /Large 或 Max/);
+    assert.throws(() => assertVideoSupportedByPlan("medium"), /Large 或 Max/);
+  });
+
+  it("allows video on Large, Max and unknown", () => {
+    assert.doesNotThrow(() => assertVideoSupportedByPlan("large"));
+    assert.doesNotThrow(() => assertVideoSupportedByPlan("max"));
+    assert.doesNotThrow(() => assertVideoSupportedByPlan("unknown"));
   });
 });

@@ -1,6 +1,6 @@
 import os from "node:os";
 import path from "node:path";
-import { MissingApiKeyError } from "./errors.js";
+import { AppError, MissingApiKeyError } from "./errors.js";
 
 export const DEFAULT_BASE_URL = "https://ark.cn-beijing.volces.com/api/plan/v3";
 export const DEFAULT_TTS_BASE_URL = "https://openspeech.bytedance.com/api/v3/plan";
@@ -11,6 +11,9 @@ export const DEFAULT_IMAGE_MODEL = "doubao-seedream-5-0-pro";
 export const DEFAULT_VIDEO_MODEL = "doubao-seedance-2.0";
 export const DEFAULT_TTS_SPEAKER = "zh_female_gaolengyujie_uranus_bigtts";
 export const DEFAULT_REQUEST_TIMEOUT_MS = 180_000;
+export const PLAN_TIERS = ["small", "medium", "large", "max", "unknown"] as const;
+
+export type PlanTier = (typeof PLAN_TIERS)[number];
 
 export interface AppConfig {
   apiKey: string;
@@ -24,6 +27,7 @@ export interface AppConfig {
   ttsSpeaker: string;
   outputDir: string;
   requestTimeoutMs: number;
+  planTier: PlanTier;
 }
 
 function env(name: string): string | undefined {
@@ -47,6 +51,23 @@ function positiveNumber(value: string | undefined, fallback: number): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+export function parsePlanTier(value: string | undefined): PlanTier {
+  if (!value) {
+    return "unknown";
+  }
+  const normalized = value.trim().toLowerCase();
+  if ((PLAN_TIERS as readonly string[]).includes(normalized)) {
+    return normalized as PlanTier;
+  }
+  throw new AppError(
+    `ARK_PLAN_TIER 的值无效: "${value}"。可选值：small、medium、large、max、unknown。`,
+    {
+      code: "INVALID_PLAN_TIER",
+      hint: "不设置时默认 unknown，由 API 调用结果判断套餐能力。",
+    },
+  );
+}
+
 export function loadConfig(): AppConfig {
   const outputDir =
     env("ARK_MEDIA_OUTPUT_DIR") ??
@@ -64,6 +85,7 @@ export function loadConfig(): AppConfig {
     ttsSpeaker: env("ARK_TTS_SPEAKER") ?? DEFAULT_TTS_SPEAKER,
     outputDir: path.resolve(outputDir),
     requestTimeoutMs: positiveNumber(env("ARK_REQUEST_TIMEOUT_MS"), DEFAULT_REQUEST_TIMEOUT_MS),
+    planTier: parsePlanTier(env("ARK_PLAN_TIER")),
   };
 }
 

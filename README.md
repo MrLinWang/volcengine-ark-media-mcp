@@ -125,7 +125,28 @@ magpie 的 MCP 市场搜索来自官方 MCP Registry。需要先发布 npm 包�
 | `ARK_TTS_SPEAKER` | 否 | `zh_female_gaolengyujie_uranus_bigtts` |
 | `ARK_MEDIA_OUTPUT_DIR` | 否 | `~/.arc-agent-media-mcp/outputs` |
 | `ARK_REQUEST_TIMEOUT_MS` | 否 | `180000` |
+| `ARK_PLAN_TIER` | 否 | `unknown`；可选 `small`、`medium`、`large`、`max` |
 | `ARK_DEBUG` | 否 | `0`；设为 `1` 输出调试日志 |
+
+## 套餐等级配置
+
+套餐等级本身由火山方舟账号里的 Agent Plan 订阅决定，MCP 不能修改；每个用户使用自己的 `ARC_AGENT_PLAN_KEY`，该 Key 所属的订阅就是实际套餐等级。
+
+`ARK_PLAN_TIER` 只是 MCP 侧的本地提示/提前校验开关，不会改变实际权限：
+
+- 设置为 `medium` 或 `small`：`ark_list_models` 会标记视频模型不可用，`ark_create_video_task` 会在调用 API 前直接返回“需要 Large/Max”的错误。
+- 设置为 `large` 或 `max`：视频工具正常调用。
+- 不设置或设置为 `unknown`：不提前判断，由火山方舟 API 的实际返回决定（Medium 会返回 `UnsupportedModel`）。
+
+示例：
+
+```powershell
+# .env
+ARC_AGENT_PLAN_KEY=你的 Key
+ARK_PLAN_TIER=medium
+```
+
+如果升级了套餐，记得把 `ARK_PLAN_TIER` 改成 `large`/`max`，或删除该变量。
 
 ## 使用示例
 

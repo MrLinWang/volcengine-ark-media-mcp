@@ -56,6 +56,19 @@ export interface VideoTaskListOptions {
   model?: string;
 }
 
+export function assertVideoSupportedByPlan(planTier: AppConfig["planTier"]): void {
+  if (planTier === "small" || planTier === "medium") {
+    throw new AppError(
+      `当前配置的 Agent Plan 套餐为 ${planTier}，视频生成仅支持 Large 或 Max 套餐。`,
+      {
+        code: "PLAN_TIER_UNSUPPORTED_VIDEO",
+        hint:
+          "如果你已经升级套餐，请把 ARK_PLAN_TIER 改为 large/max，或删除该环境变量让 API 自行判断。",
+      },
+    );
+  }
+}
+
 const TERMINAL_STATUSES = new Set(["succeeded", "failed", "cancelled", "expired"]);
 
 function referenceMode(input: CreateVideoInput): boolean {
@@ -162,6 +175,7 @@ export async function createVideoTask(
   config: AppConfig,
   input: CreateVideoInput,
 ): Promise<CreateVideoResult> {
+  assertVideoSupportedByPlan(config.planTier);
   const apiKey = requireApiKey(config);
   const model = input.model ?? config.videoModel;
   validateVideoInput(input, model);
