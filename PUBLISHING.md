@@ -1,8 +1,15 @@
 # 发布到 npm 与 MCP Registry
 
-当前机器没有 npm 账号，因此 magpie 市场搜索/一键安装还不能生效。代码和元数据已经准备好；拿到 npm 账号后按下面步骤发布即可。
+## 当前状态
 
-## 1. 发布 npm 包
+已发布：
+
+- npm：`volcengine-ark-media-mcp@1.0.0`（https://www.npmjs.com/package/volcengine-ark-media-mcp）
+- MCP Registry：`io.github.MrLinWang/volcengine-ark-media-mcp`（status: active）
+
+在 magpie 的 Library → MCP servers 中搜索 `volcengine` 或 `ark` 即可安装。
+
+## 1. 发布 npm 包（新版本时）
 
 ```powershell
 npm login
@@ -12,6 +19,9 @@ npm pack --dry-run
 npm publish --access public
 ```
 
+> npm 可能把首次发布放入 staged publishing：先创建 `0.0.0-stage` 占位版本，再到
+> https://www.npmjs.com/settings/<user>/staged-packages 点 Approve 才会正式上线。
+
 发布前确认：
 
 - `package.json` 的 `name` 是 `volcengine-ark-media-mcp`
@@ -19,9 +29,9 @@ npm publish --access public
 - `server.json` 的 `name` 与 `mcpName` 完全一致
 - 版本号在 `package.json` 和 `server.json` 中同步
 
-## 2. 发布到官方 MCP Registry
+## 2. 发布到官方 MCP Registry（新版本时）
 
-先确认 npm 包已经可以公开访问：
+先确认 npm 包已经可以公开访问（`dist-tags.latest` 应为正式版本，而不是 `0.0.0-stage`）：
 
 ```powershell
 npm view volcengine-ark-media-mcp version

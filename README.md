@@ -86,7 +86,21 @@ env = { ARC_AGENT_PLAN_KEY = "你的 Agent Plan API Key" }
 
 ## 在 magpie 中本地安装
 
-当前没有 npm 账号时，先用本地 wrapper 安装：
+已发布到 npm 与官方 MCP Registry，可以直接用 npm 包安装：
+
+```json
+{
+  "mcpServers": {
+    "volcengine-ark-media-mcp": {
+      "command": "npx",
+      "args": ["-y", "volcengine-ark-media-mcp"],
+      "env": { "ARC_AGENT_PLAN_KEY": "你的 Agent Plan API Key" }
+    }
+  }
+}
+```
+
+也可以继续用本地仓库的 wrapper 安装：
 
 ```powershell
 magpie library mcp add volcengine-ark-media-mcp node E:\Codes\arc-agent-media-mcp\scripts\run-local.mjs agents=codex
@@ -117,9 +131,10 @@ Copy-Item -Recurse -Force .\skills\volcengine-ark-media-mcp "$HOME\.codex\skills
 
 在 magpie 中可从本仓库的 `skills/volcengine-ark-media-mcp` 安装该 Skill。
 
-### 上架 magpie 市场
+### magpie 市场
 
-magpie 的 MCP 市场搜索来自官方 MCP Registry。需要先发布 npm 包并注册 `server.json`，步骤见 [PUBLISHING.md](PUBLISHING.md)。发布完成后，在 magpie 中搜索 `volcengine` 或 `ark` 即可看到并安装。
+magpie 的 MCP 市场搜索来自官方 MCP Registry。本包已发布为
+`io.github.MrLinWang/volcengine-ark-media-mcp@1.0.0`，在 magpie 中搜索 `volcengine` 或 `ark` 即可看到并安装。发布新版本的步骤见 [PUBLISHING.md](PUBLISHING.md)。
 
 ## 环境变量
 
